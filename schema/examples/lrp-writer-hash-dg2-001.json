@@ -1,0 +1,29 @@
+{
+  "profile_id": "lrp-writer-hash-dg2-001",
+  "golden_pair_id": "lrp-golden-baseline-001",
+  "lrp_arm": "writer",
+  "fault_class": "hash",
+  "fault_detail": {
+    "summary": "EF.SOD lists incorrect SHA-256 hash for complete EF.DG2 bytes (analogue LDS_D_25 class)",
+    "normative_refs": ["ICAO Doc 9303 Part 10", "ICAO TR Part 4 LDS_D_25"],
+    "icao_test_analogue": "LDS_D_25",
+    "structural_class": "0x75",
+    "injection_site": "EF.SOD LDSSecurityObject.dataGroupHashValue[DG2]"
+  },
+  "expected_attribution": "writer",
+  "files": {
+    "EF.DG1": "dg1.bin",
+    "EF.DG2": "dg2.bin",
+    "EF.SOD": "sod.bin"
+  },
+  "provenance": {
+    "harness_version": "0.1.0-prebuild",
+    "created_at": "2026-08-30T12:00:00Z",
+    "notes": "Manifest exemplar — on-chip byte files not yet published"
+  },
+  "dg_scope": {
+    "representative_dg": "DG2",
+    "structural_class_tag": "0x75",
+    "excluded_near_duplicates": ["DG5", "DG6", "DG7"]
+  }
+}

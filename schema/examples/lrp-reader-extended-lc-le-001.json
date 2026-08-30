@@ -1,0 +1,32 @@
+{
+  "profile_id": "lrp-reader-extended-lc-le-001",
+  "golden_pair_id": "lrp-golden-baseline-001",
+  "lrp_arm": "reader-implicating",
+  "fault_class": "uncommon-encoding",
+  "fault_detail": {
+    "summary": "Large EF read using extended Le with chip extended-length support indicated in EF.ATR/INFO",
+    "normative_refs": [
+      "ICAO Doc 9303 Part 10 §3.6.4",
+      "ISO/IEC 7816-4 extended length APDU"
+    ],
+    "injection_site": "READ BINARY extended Le; EF.ATR/INFO capability flag"
+  },
+  "conformance_basis": {
+    "document": "ICAO Doc 9303 Part 10",
+    "clause": "§3.6.4, §3.6.4.1, §3.6.4.2",
+    "edition": "8th ed. (2021)",
+    "summary": "Extended Lc/Le required for large cryptographic objects; terminals MUST support; chip conditional on ATS/EF.ATR/INFO indication"
+  },
+  "expected_attribution": "reader-implicating",
+  "files": {
+    "EF.ATR/INFO": "atr-info-extlen.bin",
+    "EF.DG1": "dg1.bin",
+    "EF.DG2": "dg2-large.bin",
+    "EF.SOD": "sod.bin"
+  },
+  "provenance": {
+    "harness_version": "0.1.0-prebuild",
+    "created_at": "2026-08-30T14:00:00Z",
+    "notes": "Golden pair uses short-length read of same EF content where size permits"
+  }
+}

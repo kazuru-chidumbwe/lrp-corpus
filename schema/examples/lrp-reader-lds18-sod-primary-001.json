@@ -1,0 +1,31 @@
+{
+  "profile_id": "lrp-reader-lds18-sod-primary-001",
+  "golden_pair_id": "lrp-golden-baseline-001",
+  "lrp_arm": "reader-implicating",
+  "fault_class": "uncommon-encoding",
+  "fault_detail": {
+    "summary": "LDS version 0108 with SOD V1 ldsVersionInfo populated; EF.COM absent on chip — tests SOD-primary IS parsing",
+    "normative_refs": [
+      "ICAO Doc 9303 Part 10 §4.6.2.1",
+      "ICAO Doc 9303 Part 10 §4.6.1"
+    ],
+    "injection_site": "EF.COM absent; ldsVersionInfo in SOD V1 signed attribute"
+  },
+  "conformance_basis": {
+    "document": "ICAO Doc 9303 Part 10",
+    "clause": "§4.6.2.1 (SOD V1 / ldsVersionInfo); §4.6.1 RECOMMENDATION (inspection systems SHOULD use SOD for LDS 1.8) — explicitly not the §4.6.1 EF.COM MANDATORY issuance row",
+    "edition": "8th ed. (2021)",
+    "summary": "Conformant-but-uncommon on the inspection path: LDS 1.8 version and DG map are carried in SOD V1 ldsVersionInfo per §4.6.2.1; IS SHOULD read LDS version from SOD per §4.6.1 RECOMMENDATION. EF.COM is omitted to test SOD-primary parsing. Issuer omission of EF.COM remains non-conformant under §4.6.1 MANDATORY for document issuance."
+  },
+  "expected_attribution": "reader-implicating",
+  "files": {
+    "EF.DG1": "dg1.bin",
+    "EF.DG2": "dg2.bin",
+    "EF.SOD": "sod-v1-lds18.bin"
+  },
+  "provenance": {
+    "harness_version": "0.1.0",
+    "created_at": "2026-08-30T16:00:00Z",
+    "notes": "Manifest exemplar — on-chip byte files not yet published"
+  }
+}

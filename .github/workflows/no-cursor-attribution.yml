@@ -1,0 +1,30 @@
+name: no-cursor-attribution
+
+# Fail if Cursor Agent co-author trailers appear in reachable history.
+# Local prevention: git config core.hooksPath .githooks
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+      - name: Reject Cursor co-author trailers on reachable history
+        run: |
+          set -euo pipefail
+          if git log --all --format='%B' | grep -E -q '^Co-authored-by:[[:space:]]*(Cursor|Cursor Agent)[[:space:]]*<cursoragent@cursor\.com>[[:space:]]*$'; then
+            echo 'ERROR: Found Co-authored-by: Cursor <cursoragent@cursor.com> in commit history.'
+            git log --all --grep='Co-authored-by: Cursor' --oneline || true
+            exit 1
+          fi
+          echo 'OK: no Cursor co-author trailers.'

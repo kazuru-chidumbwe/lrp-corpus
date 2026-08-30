@@ -1,0 +1,36 @@
+{
+  "profile_id": "lrp-reader-39794-dg2-7f2e-001",
+  "golden_pair_id": "lrp-golden-baseline-001",
+  "lrp_arm": "reader-implicating",
+  "fault_class": "uncommon-encoding",
+  "fault_detail": {
+    "summary": "DG2 facial biometric encoded under DO 7F2E with ISO/IEC 39794-5 face image (tag 65) per 39794 migration profile",
+    "normative_refs": [
+      "ICAO Doc 9303 Part 10 §4.5.6, §4.7.2",
+      "ICAO TR ISO/IEC 39794-5 Application Profile §2, §3.1"
+    ],
+    "structural_class": "0x75",
+    "injection_site": "EF.DG2 BDB tag 7F2E / nested 65"
+  },
+  "conformance_basis": {
+    "document": "ICAO Doc 9303 Part 10; ICAO TR ISO/IEC 39794-5 Application Profile for eMRTDs",
+    "clause": "Part 10 §4.5.6, §4.7.2, Tables 43–44; TR §2, §3.1, Table 2 (7F2E → tag 65)",
+    "edition": "Part 10, 8th ed. (2021); TR v1.00 (Aug 2023)",
+    "summary": "39794-series face data in DG2 uses DO 7F2E with ISO/IEC 39794-5 encoding per migration timetable"
+  },
+  "expected_attribution": "reader-implicating",
+  "files": {
+    "EF.DG1": "dg1.bin",
+    "EF.DG2": "dg2-7f2e.bin",
+    "EF.SOD": "sod.bin"
+  },
+  "dg_scope": {
+    "representative_dg": "DG2",
+    "structural_class_tag": "0x75"
+  },
+  "provenance": {
+    "harness_version": "0.1.0-prebuild",
+    "created_at": "2026-08-30T14:00:00Z",
+    "notes": "Manifest exemplar — on-chip byte files not yet published"
+  }
+}

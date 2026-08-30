@@ -1,0 +1,16 @@
+#!/bin/sh
+# Strip Cursor/IDE co-author trailers so they never become GitHub contributors.
+# Enable in this clone: git config core.hooksPath .githooks
+#
+# Called as: prepare-commit-msg <msg-file> [<source> [<sha>]]
+
+msg_file=$1
+[ -n "$msg_file" ] && [ -f "$msg_file" ] || exit 0
+
+tmp=${msg_file}.tmp.$$
+grep -v -E \
+  -e '^Co-authored-by:[[:space:]]*(Cursor|Cursor Agent)[[:space:]]*<cursoragent@cursor\.com>[[:space:]]*$' \
+  -e '^Made[- ]with:[[:space:]]*Cursor[[:space:]]*$' \
+  "$msg_file" > "$tmp"
+mv "$tmp" "$msg_file"
+exit 0

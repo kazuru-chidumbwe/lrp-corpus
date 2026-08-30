@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kazuru-chidumbwe/lrp-corpus/schema/lrp-profile-v1.schema.json",
+  "title": "LDS Reference Profile (LRP) manifest v1",
+  "description": "Machine-readable profile descriptor for fault-injected LDS reference artefacts. PA-only scope; synthetic lab PKI. Profile IDs follow lrp-{golden|writer|chip|reader}-{fault-slug}-{nnn}. Golden profiles are conformant controls (lrp_arm: golden), not fault arms.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile_id",
+    "lrp_arm",
+    "fault_class",
+    "fault_detail",
+    "expected_attribution",
+    "files",
+    "provenance"
+  ],
+  "allOf": [
+    {
+      "if": { "properties": { "lrp_arm": { "const": "reader-implicating" } } },
+      "then": { "required": ["conformance_basis", "golden_pair_id"] }
+    },
+    {
+      "if": { "properties": { "lrp_arm": { "const": "golden" } } },
+      "then": { "not": { "required": ["golden_pair_id", "conformance_basis"] } }
+    },
+    {
+      "if": {
+        "properties": {
+          "lrp_arm": { "enum": ["writer", "chip"] },
+          "fault_class": { "type": "string" }
+        }
+      },
+      "then": { "required": ["golden_pair_id"] }
+    },
+    {
+      "if": {
+        "properties": {
+          "lab_pki": {
+            "type": "object",
+            "properties": {
+              "injection": {
+                "enum": [
+                  "dsc-expired",
+                  "dsc-outside-csca-window",
+                  "dsc-revoked-lab-crl"
+                ]
+              }
+            },
+            "required": ["injection"]
+          }
+        },
+        "required": ["lab_pki"]
+      },
+      "then": { "required": ["validation_time"] }
+    }
+  ],
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "pattern": "^lrp-(golden|writer|chip|reader)-[a-z0-9][a-z0-9-]{1,46}$",
+      "description": "lrp-{golden|writer|chip|reader}-{fault-slug}-{nnn} — golden is the conformant control prefix; writer, chip, and reader-implicating map to lrp_arm."
+    },
+    "golden_pair_id": {
+      "type": "string",
+      "description": "profile_id of conformant golden counterpart for fault-isolation verification"
+    },
+    "lrp_arm": {
+      "type": "string",
+      "enum": ["golden", "writer", "chip", "reader-implicating"]
+    },
+    "fault_class": {
+      "type": "string",
+      "enum": [
+        "control",
+        "hash",
+        "encoding",
+        "trust-chain",
+        "read-path",
+        "uncommon-encoding",
+        "chip-sod-divergence",
+        "sod-listed-unreadable"
+      ]
+    },
+    "fault_detail": {
+      "type": "object",
+      "required": ["summary", "normative_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string", "minLength": 10 },
+        "normative_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "minItems": 1
+        },
+        "icao_test_analogue": { "type": "string" },
+        "structural_class": { "type": "string" },
+        "injection_site": { "type": "string" }
+      }
+    },
+    "conformance_basis": {
+      "type": "object",
+      "description": "Required for reader-implicating profiles",
+      "required": ["clause", "document"],
+      "additionalProperties": false,
+      "properties": {
+        "document": { "type": "string" },
+        "clause": { "type": "string" },
+        "edition": { "type": "string" },
+        "summary": { "type": "string" }
+      }
+    },
+    "expected_attribution": {
+      "type": "string",
+      "enum": ["golden", "writer", "chip", "reader-implicating"]
+    },
+    "files": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {
+        "oneOf": [
+          { "type": "string" },
+          {
+            "type": "object",
+            "required": ["generator"],
+            "properties": {
+              "generator": { "type": "string" },
+              "args": { "type": "object" }
+            }
+          }
+        ]
+      }
+    },
+    "lab_pki": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "csca_ref": { "type": "string" },
+        "dsc_ref": { "type": "string" },
+        "crl_ref": { "type": "string" },
+        "injection": {
+          "type": "string",
+          "enum": [
+            "dsc-expired",
+            "dsc-no-chain",
+            "dsc-outside-csca-window",
+            "certificates-omitted",
+            "dsc-revoked-lab-crl"
+          ]
+        }
+      }
+    },
+    "validation_time": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Pinned verification instant (UTC ISO 8601) for expiry- or CRL-relative trust-chain faults. Required when lab_pki.injection is dsc-expired, dsc-outside-csca-window, or dsc-revoked-lab-crl."
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["harness_version", "created_at"],
+      "additionalProperties": false,
+      "properties": {
+        "harness_version": { "type": "string" },
+        "zenodo_pin": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string" }
+      }
+    },
+    "dg_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "representative_dg": { "type": "string" },
+        "structural_class_tag": { "type": "string", "pattern": "^0x[0-9A-Fa-f]{2}$" },
+        "excluded_near_duplicates": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "fault_isolation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "golden_pass_all_readers": { "type": "boolean" },
+        "diff_confined": { "type": "boolean" },
+        "verified_at": { "type": "string", "format": "date-time" }
+      }
+    }
+  }
+}

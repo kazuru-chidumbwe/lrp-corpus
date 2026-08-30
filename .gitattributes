@@ -1,0 +1,2 @@
+# EF byte blobs — keep binary, no text diffs
+*.bin binary

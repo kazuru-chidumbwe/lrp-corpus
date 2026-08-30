@@ -1,0 +1,26 @@
+name: verify-dry-run
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "tools/**"
+      - ".github/workflows/verify.yml"
+  pull_request:
+    paths:
+      - "tools/**"
+      - ".github/workflows/verify.yml"
+
+jobs:
+  selftest:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install -r requirements.txt
+      - run: python verify_dry_run.py selftest

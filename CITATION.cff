@@ -1,0 +1,34 @@
+cff-version: 1.2.0
+title: "LDS Reference Profiles (LRP) corpus"
+message: >-
+  If you use this corpus or its schema, please cite it using the metadata below.
+  A Zenodo DOI will be added when a stable release is deposited.
+type: dataset
+authors:
+  - family-names: Kazuru
+    given-names: Seke
+    orcid: "https://orcid.org/0009-0002-4099-1059"
+    email: kazuruuni@gmail.com
+    affiliation: Independent Researcher
+repository-code: "https://github.com/kazuru-chidumbwe/lrp-corpus"
+url: "https://github.com/kazuru-chidumbwe/lrp-corpus"
+abstract: >-
+  Open, fault-injected corpus of synthetic eMRTD Logical Data Structure artefacts
+  tagged by layer (writer, chip, reader-implicating). Each profile bundles on-chip
+  EF bytes with a machine-readable manifest for Passive Authentication and
+  laboratory conformance testing. All material is synthetic; no live country keys
+  or operational documents.
+keywords:
+  - eMRTD
+  - ICAO 9303
+  - ISO 39794
+  - passive-authentication
+  - conformance-testing
+  - reference-corpus
+  - LDS
+  - fault-injection
+license:
+  - MIT
+  - CC-BY-4.0
+version: "0.1.0"
+date-released: "2026-08-30"
